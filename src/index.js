@@ -10,45 +10,70 @@ import {
   DirectionalLight,
   Vector3,
   Color3,
-  SceneLoader
+  SceneLoader,
+  DeviceOrientationCamera
 } from "@babylonjs/core";
 import "@babylonjs/inspector";
 
-//canvas je grafické okno, to rozáhneme přes obrazovku
+//canvas je grafické okno, to rozáhneme přes obrazovku -> NEMĚNIT
 const canvas = document.getElementById("renderCanvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const engine = new Engine(canvas, true);
 
-//scéna
+//scéna -> NEMĚNIT
 const scene = new Scene(engine);
 // Default Environment
 
 //vytoření kamery v pozici -5 (dozadu)
-const camera = new UniversalCamera("Camera", new Vector3(0, 5, 10), scene);
+//const camera = new UniversalCamera("Camera", new Vector3(0, 5, 10), scene);
+//const camera = new UniversalCamera("Camera", new Vector3(0,5,10),scene);
+const camera = new DeviceOrientationCamera(
+  "Camera",
+  new Vector3(0, 5, 10),
+  scene
+);
 
 //zaměřit kameru do středu
 camera.setTarget(Vector3.Zero());
+//zaměřit kameru jinam(výš např.)
+//camera.setTarget(new Vector3(0,3,0));
 
 //spojení kamery a grafikcého okna
 camera.attachControl(canvas, true);
 
+// var = variable -> proměnná
+
+// var i = 0;
+// for (i = 0; i < 5; i++) {
+//   // Our built-in 'sphere' shape.
+//   var sphere = MeshBuilder.CreateCylinder(
+//     "sphere",
+//     { diameter: i * 0.2, height: 3, segments: 32 },
+//     scene
+//   );
+//   sphere.position.y = 2;
+//   sphere.position.x = i - 2;
+
+//   if (i === 2) {
+//     var blueMat = new StandardMaterial("blueMat", scene);
+//     blueMat.diffuseColor = new Color3(0.5, 0.5, 0.6);
+//     sphere.material = blueMat;
+//   }
+// }
 var i = 0;
 for (i = 0; i < 5; i++) {
-  // Our built-in 'sphere' shape.
   var sphere = MeshBuilder.CreateCylinder(
-    "sphere",
-    { diameter: i * 0.2, height: 3, segments: 32 },
+    "freza",
+    { diameter: 0.2, height: 3 },
     scene
   );
-  sphere.position.y = 2;
-  sphere.position.x = i - 2;
-
+  sphere.position.x = i;
   if (i === 2) {
-    var blueMat = new StandardMaterial("blueMat", scene);
-    blueMat.diffuseColor = new Color3(0.5, 0.5, 0.6);
-    sphere.material = blueMat;
+    var mat = new StandardMaterial("sedy", scene);
+    mat.diffuseColor = new Color3(0.5, 0.5, 0.6);
+    sphere.material = mat;
   }
 }
 
@@ -86,4 +111,5 @@ environment1.setMainColor(new Color3.FromHexString("#74b9ff"));
 environment1.ground.parent.position.y = 0;
 environment1.ground.position.y = 0;
 
-//scene.debugLayer.show();
+//scene exploer (vymazat lomítka)
+scene.debugLayer.show();
